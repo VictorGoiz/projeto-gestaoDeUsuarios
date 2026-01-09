@@ -5,4 +5,6 @@ const usuarioController = require('../controllers/usuario-controller');
 
 router.get('/', usuarioController.listarUsuarios);
 router.post('/', usuarioController.cadastrarUsuarios);
-router.put('/:id', )
+router.put('/:id', usuarioController.atualizarUsuarios)
+
+module.exports = router;
