@@ -72,6 +72,35 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="modalExcluirUsuario" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title">Confirmar exclusão</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>Tem certeza que deseja excluir este usuário?</p>
+        <p class="text-danger fw-bold">Essa ação não poderá ser desfeita.</p>
+        <input type="hidden" id="delete-id">
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancelar
+        </button>
+        <button class="btn btn-danger" onclick="confirmarExclusao()">
+          Excluir
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <body>
 
 <!-- NAVBAR -->
@@ -107,15 +136,15 @@
         <div class="col-md-6 mb-3">
           <div class="card text-bg-success">
             <div class="card-body">
-              <h3>1</h3>
-              <p class="mb-0">Novos Usuários</p>
+              <h3 id="qtdUsuarios"></h3>
+              <p class="mb-0">Usuários</p>
             </div>
           </div>
         </div>
         <div class="col-md-6 mb-3">
           <div class="card text-bg-warning">
             <div class="card-body">
-              <h3>1</h3>
+              <h3 id="qtdAdms"></h3>
               <p class="mb-0">Administradores</p>
             </div>
           </div>

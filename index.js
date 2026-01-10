@@ -18,6 +18,9 @@ document.querySelector('form').addEventListener('submit', async (e) => {
     credentials: 'include',
     body: JSON.stringify(data)
   });
+  carregarUsuarios()
+  contarUsuarios();
+  contarAdministradores();
   }catch(e){
     console.log(`erro ao enviar fetch:${e}`)
   }
@@ -75,6 +78,40 @@ async function salvarEdicao() {
   }
 }
 
+function abrirModalExcluir(id) {
+  document.getElementById('delete-id').value = id;
+
+  const modal = new bootstrap.Modal(
+    document.getElementById('modalExcluirUsuario')
+  );
+
+  modal.show();
+}
+
+async function confirmarExclusao() {
+  const id = document.getElementById('delete-id').value;
+
+  try {
+    const response = await fetch(`http://localhost:3000/usuario/${id}`, {
+      method: 'DELETE',
+      credentials: 'include'
+    });
+
+    if (!response.ok) {
+      alert('Erro ao excluir usuário');
+      return;
+    }
+
+    bootstrap.Modal.getInstance(
+      document.getElementById('modalExcluirUsuario')
+    ).hide();
+
+    carregarUsuarios();
+
+  } catch (err) {
+    console.error(err);
+  }
+}
 
 
 async function carregarUsuarios() {
@@ -97,7 +134,7 @@ try{
               <td>${u.dataCadastro}</td>
               <td>
                 <button class="btn btn-sm btn-primary" onclick="abrirModalEditar(${u.id}, '${u.nome}', '${u.email}', ${u.adm})">Editar</button>
-                <button class="btn btn-sm btn-danger" onclick="excluirUsuario(${u.id})">Excluir</button>
+                <button class="btn btn-sm btn-danger" onclick="abrirModalExcluir(${u.id})">Excluir</button>
               </td>
             </tr>
             `
@@ -110,3 +147,31 @@ try{
 
 carregarUsuarios()
 
+async function contarUsuarios() {
+  const areaUser = document.getElementById('qtdUsuarios');
+  const dados = await fetch('http://localhost:3000/usuario/contarUsuarios',{
+    credentials : 'include',
+    method : 'GET'
+  })
+  const qtd_usuarios = await dados.json()
+  console.log(qtd_usuarios)
+
+  areaUser.innerText = `${qtd_usuarios[0].qtd_usuarios}`
+
+}
+
+async function contarAdministradores() {
+  const areaAdm = document.getElementById('qtdAdms');
+  const dados = await fetch('http://localhost:3000/usuario/contarAdms',{
+    credentials: 'include',
+    method:'GET'
+  });
+  const qtd_adms = await dados.json();
+
+  areaAdm.innerText = qtd_adms[0].qtd_adms;
+  
+}
+
+
+contarUsuarios();
+contarAdministradores();
